@@ -351,3 +351,59 @@ Traceback (most recent call last):
 ImportError: cannot import name 'BashOprator' from 'airflow.operators.bash' (/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/bash.py)
 [2026-01-08T02:12:02.455+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/01_basics_bash.py
 [2026-01-08T02:12:02.469+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/01_basics_bash.py took 0.089 seconds
+[2026-01-08T02:12:33.171+0000] {processor.py:186} INFO - Started process (PID=3075) to work on /opt/airflow/dags/01_basics_bash.py
+[2026-01-08T02:12:33.173+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/01_basics_bash.py for tasks to queue
+[2026-01-08T02:12:33.176+0000] {logging_mixin.py:190} INFO - [2026-01-08T02:12:33.176+0000] {dagbag.py:587} INFO - Filling up the DagBag from /opt/airflow/dags/01_basics_bash.py
+[2026-01-08T02:12:33.215+0000] {logging_mixin.py:190} INFO - [2026-01-08T02:12:33.206+0000] {dagbag.py:386} ERROR - Failed to import: /opt/airflow/dags/01_basics_bash.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 382, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/01_basics_bash.py", line 8, in <module>
+    from airflow.operators.bash import BashOprator
+ImportError: cannot import name 'BashOprator' from 'airflow.operators.bash' (/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/bash.py)
+[2026-01-08T02:12:33.219+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/01_basics_bash.py
+[2026-01-08T02:12:33.234+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/01_basics_bash.py took 0.067 seconds
+[2026-01-08T02:13:03.658+0000] {processor.py:186} INFO - Started process (PID=3138) to work on /opt/airflow/dags/01_basics_bash.py
+[2026-01-08T02:13:03.659+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/01_basics_bash.py for tasks to queue
+[2026-01-08T02:13:03.662+0000] {logging_mixin.py:190} INFO - [2026-01-08T02:13:03.661+0000] {dagbag.py:587} INFO - Filling up the DagBag from /opt/airflow/dags/01_basics_bash.py
+[2026-01-08T02:13:03.698+0000] {logging_mixin.py:190} INFO - [2026-01-08T02:13:03.690+0000] {dagbag.py:386} ERROR - Failed to import: /opt/airflow/dags/01_basics_bash.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 382, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/01_basics_bash.py", line 8, in <module>
+    from airflow.operators.bash import BashOprator
+ImportError: cannot import name 'BashOprator' from 'airflow.operators.bash' (/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/bash.py)
+[2026-01-08T02:13:03.701+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/01_basics_bash.py
+[2026-01-08T02:13:03.716+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/01_basics_bash.py took 0.063 seconds
+[2026-01-08T02:13:34.269+0000] {processor.py:186} INFO - Started process (PID=3201) to work on /opt/airflow/dags/01_basics_bash.py
+[2026-01-08T02:13:34.271+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/01_basics_bash.py for tasks to queue
+[2026-01-08T02:13:34.273+0000] {logging_mixin.py:190} INFO - [2026-01-08T02:13:34.273+0000] {dagbag.py:587} INFO - Filling up the DagBag from /opt/airflow/dags/01_basics_bash.py
+[2026-01-08T02:13:34.298+0000] {logging_mixin.py:190} INFO - [2026-01-08T02:13:34.292+0000] {dagbag.py:386} ERROR - Failed to import: /opt/airflow/dags/01_basics_bash.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 382, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/01_basics_bash.py", line 8, in <module>
+    from airflow.operators.bash import BashOprator
+ImportError: cannot import name 'BashOprator' from 'airflow.operators.bash' (/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/bash.py)
+[2026-01-08T02:13:34.301+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/01_basics_bash.py
+[2026-01-08T02:13:34.316+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/01_basics_bash.py took 0.052 seconds
+[2026-01-08T02:14:05.271+0000] {processor.py:186} INFO - Started process (PID=3264) to work on /opt/airflow/dags/01_basics_bash.py
+[2026-01-08T02:14:05.273+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/01_basics_bash.py for tasks to queue
+[2026-01-08T02:14:05.276+0000] {logging_mixin.py:190} INFO - [2026-01-08T02:14:05.275+0000] {dagbag.py:587} INFO - Filling up the DagBag from /opt/airflow/dags/01_basics_bash.py
+[2026-01-08T02:14:05.312+0000] {logging_mixin.py:190} INFO - [2026-01-08T02:14:05.304+0000] {dagbag.py:386} ERROR - Failed to import: /opt/airflow/dags/01_basics_bash.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 382, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/01_basics_bash.py", line 8, in <module>
+    from airflow.operators.bash import BashOprator
+ImportError: cannot import name 'BashOprator' from 'airflow.operators.bash' (/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/bash.py)
+[2026-01-08T02:14:05.316+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/01_basics_bash.py
+[2026-01-08T02:14:05.338+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/01_basics_bash.py took 0.071 seconds
