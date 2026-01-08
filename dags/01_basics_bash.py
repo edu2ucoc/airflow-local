@@ -42,7 +42,25 @@ with DAG(
     # 개발, 신규 서비스 런칭 => 소급처리 방지하여 구성
     tags            = ['bash','basic'] # dAG 많으면 찾기 힘듬 => 검색용
 ) as dag:
-    # 오퍼레이터
+    # 오퍼레이터 -> 작업자
+    # Task 정의 -> 내용 자체에는 목적이 현재는 없음 (수행되는지만 관심을 가짐)
+    # task 작동 내용을 로그를 통해서 확인 가능
+    t1 = BashOperator(
+        # 영문자, 숫자, 하이픈, 마침표, 밑줄만으로 구성되어야 합니다.
+        task_id      ='date-print', # aiwflow의 지휘를 통해서 dag 구동시 실제 할일을 정의한 task 구분값
+        bash_command ='date'      # 리눅스의 date 명령
+    )
+    t2 = BashOperator(
+        task_id      ='sleep',
+        bash_command ='sleep 5'   # 5초 대기
+    )
+    t3 = BashOperator(
+        task_id      ='print_echo',
+        bash_command ='echo "반갑습니다. Airflow start 123!@#"'
+    )
 
     # 의존성
-    pass
+    # t1 실행 -> t2 실행 -> t3 실행
+    # t1 실행이 성공해야만 t2 실행함, t2 실행이 성공해야만, t3 실행
+    # 대시보드에서 Graph를 통해서 노드의 연결방향이 표현됨
+    t1 >> t2 >> t3
