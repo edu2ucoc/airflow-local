@@ -4,8 +4,10 @@
 from datetime import datetime, timedelta 
 # DAG
 from airflow import DAG
-# 오퍼레이터
-from airflow.operators.bash import BashOprator
+# 오퍼레이터 2.x
+#from airflow.operators.bash import BashOperator
+# 오퍼레이터 3.x
+from airflow.providers.standard.operators.bash import BashOperator
 
 # 1. 기본 인자 구성 -> task에 적용될 매개변수
 #    dag 소유주(작성자, 관리자), 
