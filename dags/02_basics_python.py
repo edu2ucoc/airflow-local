@@ -42,8 +42,14 @@ def _transform_cb(**kwargs):
     # 1. ti 객체 획득
     ti = kwargs['ti']
 
-    print( kwargs, type(kwargs), kwargs.keys() )
-    print( "Data_transform_성공" )
+    # 2. task 본연 업무 구현
+    # extract_task에서 전달한 데이터 획득
+    data = ti.xcom_pull(task_ids='extract_data_task')
+    # print( kwargs, type(kwargs), kwargs.keys() )
+    logging.info('== Transform 작업 시작 ==')
+    logging.info( f"Data_transform_성공 {data}" )
+    logging.info('== Transform 작업 시작 ==')
+    
     #return "Data_transform_성공"
     pass
 
