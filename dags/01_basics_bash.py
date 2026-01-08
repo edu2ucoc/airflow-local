@@ -23,3 +23,24 @@ default_args = {
 }
 
 # 2. DAG 정의
+'''
+with DAG() as dag:
+    # 오퍼레이터 등등.. 기술
+    # 작업 순서 (의존성 고려) 지정
+'''
+with DAG(
+    dag_id          = "01_basics_bash_v1", # 고유한 값, DAG를 상호 구분하는 용도
+    description     = "DE를 위한 ETL 작업의 핵심 패키지 airflow 기본 연습용 DAG", # DAG 설명
+    default_args    = default_args, # DAG의 기본 인자값
+    schedule_interval = '@daily',    # 하루에 한번. 매일 00시 00분(자정)에 실행, cron 표현가능
+    start_date      = datetime(2025,1,1), # 과거날짜로(샘플) 설정. 특정시점 세팅해도 됨 -> 소급 수행 가능성 존재함. 즉시 수행되는 장점
+                                          # 과거 설정의 장점은 당장 지금부터 시점이 되면 수행됨
+    catchup         = False,        # 과거에 대한 소급 처리 실행 방지
+    # 만약 False 아니면 1년치(365일) + 현재까지(8일) => 365+8 회 수행이됨(소급 처리 진행됨)
+    # 개발, 신규 서비스 런칭 => 소급처리 방지하여 구성
+    tags            = ['bash','basic'] # dAG 많으면 찾기 힘듬 => 검색용
+) as dag:
+    # 오퍼레이터
+
+    # 의존성
+    pass
