@@ -77,5 +77,7 @@ with DAG(
     )
     # 2. 의존성 (순서 작성)
     extract_task >> transform_task
-    # [실습] : load_task 구현하시오. 의존성은 transform_task 실행 성공후 task 수행되게 구성
+    # [리뷰실습] : load_task 구현하시오. 
+    #             의존성은 transform_task 실행 성공후 task 수행되게 구성
+    #             주 업무 : transform_task에서 리턴한 값(문자열)을 받아서 로그 출력
     pass
