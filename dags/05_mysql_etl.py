@@ -40,6 +40,11 @@ def _extract_data_sensor(**kwargs):
     return file_path
     pass
 def _transform_data_std_change(**kwargs):
+    # 1. extract_data_sensor task에서 전달한 file_path 획득(XCom 이용)
+    # 2. 해당 데이터를 DataFrame으로 로드 (json -> df)
+    # 3. 전처리 수행 -> 섭씨를 화씨로 변환 처리 ( 화씨(°F) = (섭씨(°C) × 9/5) + 32 )
+    # 4. 전처리된 데이터를 저장 => 동일 공간에 파일명만 preprocessing_data_{ds_nodash}.csv
+    # 5. 저장된 csv 경로를 다음 task에서 사용할 수 있게 반환 처리 (df -> csv, 인덱스제거)
     pass
 def _load_data_mysql(**kwargs):
     pass
