@@ -57,7 +57,7 @@ x-airflow-common:
     TZ: 'Asia/Seoul'
     AIRFLOW__WEBSERVER__DEFAULT_UI_TIMEZONE:  'Asia/Seoul'
     # mysql 연결용 패키지 자동 설치
-    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-} apache-airflow-providers-mysql
+    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-} apache-airflow-providers-mysql    
 
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
