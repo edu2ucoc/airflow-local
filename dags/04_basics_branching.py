@@ -53,7 +53,18 @@ with DAG(
         task_id  = "skip"
     ) # 생략
     task_end     = EmptyOperator(
-        task_id  = "end",
+        task_id  = "end",        
+        # NONE_FAILED_MIN_ONE_SUCCESS : 실패는 없고, 최소 1개는 성공했다
+        # DAG는 모든 task는 성공해야 한다라는 기조로 작동하는 단위
+        # 1개라도 중간에 실패하면 중단시킴 -> 전체 task 그대로 생략 해버림
+        # 분기 진행 -> skip(분홍색 박스) 된 task가 반드시 발생 -> 모두 성공한다는 기조에 위배가 됨
+        #  -> 특별한 설정이 없다면 모두 성공이라는 관점에 위배가됨
+        # NONE_FAILED_MIN_ONE_SUCCESS
+        # - 전체 공정에 실패는 없었다. 최소 1개 이상은 성공햇다 -> DAG은 신경 말고, 그대로 실행해라
+        
+        # 결론 브런치(분기기능) 사용시 필수값(기본값) trigger_rule를 적용함
+        # 값은 NONE_FAILED_MIN_ONE_SUCCESS 세팅
+        # 참고 : ALL_SUCCESS => skip을 실패로 간주함
         trigger_rule = TriggerRule.NONE_FAILED_MIN_ONE_SUCCESS
     ) # 종료
 
