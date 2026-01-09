@@ -87,9 +87,10 @@ def _load_data_mysql(**kwargs):
             #params = list() # [ (값, 값, 값, 값), (), () ]
             params = [
                 ( data['sensor_id'],     data['timestamp'], 
-                  data['temperature_c'], data['temperature_f'] )
+                  data['temperature'], data['temperature_f'] )
                 for _, data in df.iterrows()
             ]
+            logging.info(f'파라미터 {params}')
             cursor.executemany( sql, params )
             # 3. 커밋
             conn.commit()
