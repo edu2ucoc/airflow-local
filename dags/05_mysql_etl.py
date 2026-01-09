@@ -21,17 +21,22 @@ def _extract_data_sensor(**kwargs):
     # kwargs <- airflow context 정보가 전달됨
     # 스마트팩토리에 설치된 온도 센서 데이터가 어딘가(데이터 레이크:s3)에 쌓이고 있다 -> 추출해서 가져온다
     # 여기서는 더미로 구성
-    data = ...
-
+    data = [ {
+        "sensor_id"  : f"SENSOR_{i+1}", # 장비 ID
+        "timestamp"  : datetime.now().strftime("%Y-%m-%d %H:%M:%S"), # YYYY-MM-DD hh:mm:ss
+        "temperature": round( random.uniform(20.0, 150.0), 2),
+        "status"     : "on", # on/off
+    } for i in range(10) ]
 
     # 더미로 만든 데이터를 파일로 저장 => /opt/airflow/dags/data/sensor_data_DAG수행날짜.json
     file_path = f'{DATA_PATH}/sensor_data_{ kwargs["ds_nodash"] }.json'
     with open(file_path, 'w') as f:
         json.dump( data , f)
-
+    
     # XCom을 통해서 다음 task에서 접근 가능함
     # 다음 테스크에게 무엇을 전달할 것인가? 
     # 1) 데이터(저용량일때 가볍게, 사용 자제) 2) [v]파일경로(로컬, s3경로등)
+    logging.info(f'extract 완료 데이터={file_path}')
     return file_path
     pass
 def _transform_data_std_change(**kwargs):
