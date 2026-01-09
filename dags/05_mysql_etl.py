@@ -58,11 +58,32 @@ def _transform_data_std_change(**kwargs):
     # 4. 전처리된 데이터를 저장 => 동일 공간에 파일명만 preprocessing_data_{ds_nodash}.csv
     file_path = f'{DATA_PATH}/preprocessing_data_{ kwargs["ds_nodash"] }.csv'
     target_df.to_csv( file_path, index=False)
+    logging.info(f'transform 데이터 전처리후 csv 저장 완료 {file_path}')
 
     # 5. 저장된 csv 경로를 다음 task에서 사용할 수 있게 반환 처리 (df -> csv, 인덱스제거)
     return file_path
     pass
 def _load_data_mysql(**kwargs):
+    # csv => mysql, 이를 위해서 MySqlHook을 사용
+    # 1. csv 경로 획득
+    ti             = kwargs['ti']
+    csv_file_path  = ti.xcom_pull(task_ids='transform_data_std_change')
+
+    # 2. 연결 -> I/O (예외처리, with문 -> auto close() 처리)
+    mysql_hook = MySqlHook(mysql_conn_id='mysql_default')
+    conn       = mysql_hook.get_conn() # 커넥션 획득
+    try:        
+        with conn.cursor() as cursor:   # 커서 획득
+            # 1. 쿼리문 준비
+            # 2. 데이터별, 컬럼별 추출하여 쿼리 수행 ( executemany() )
+            # 3. 커밋
+            logging.info('mysql에 데이터 삽입(적제) 성공(success)')
+    except Exception as e:
+        logging.error(f'mysql에 데이터 삽입(적제) 중 오류 발생 {e}')
+    finally:
+        if conn:
+            conn.close()
+            logging.info('mysql에 데이터 삽입(적제) 완료')
     pass
 
 # DAG
