@@ -53,6 +53,12 @@ x-airflow-common:
   # build: .
   environment:
     &airflow-common-env
+    # 시간대 조정
+    TZ: 'Asia/Seoul'
+    AIRFLOW__WEBSERVER__DEFAULT_UI_TIMEZONE:  'Asia/Seoul'
+    # mysql 연결용 패키지 자동 설치
+    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-} apache-airflow-providers-mysql
+
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
     AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
@@ -68,7 +74,7 @@ x-airflow-common:
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
     # WARNING: Use _PIP_ADDITIONAL_REQUIREMENTS option ONLY for a quick checks
     # for other purpose (development, test and especially production usage) build/extend Airflow image.
-    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
+    # _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
     # The following line can be used to set a custom config file, stored in the local config folder
     # If you want to use it, outcomment it and replace airflow.cfg with the name of your config file
     # AIRFLOW_CONFIG: '/opt/airflow/config/airflow.cfg'
@@ -114,7 +120,7 @@ services:
       retries: 50
       start_period: 30s
     restart: always
-
+  
   airflow-webserver:
     <<: *airflow-common
     command: webserver
@@ -284,5 +290,25 @@ services:
       airflow-init:
         condition: service_completed_successfully
 
+  mysql:
+    image: mysql:8.0
+    container_name: airflow-class-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: my_data_warehouse
+      MYSQL_USER: student
+      MYSQL_PASSWORD: student
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-db-volume:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 volumes:
   postgres-db-volume:
+  # mysql용 볼륨 
+  mysql-db-volume:
