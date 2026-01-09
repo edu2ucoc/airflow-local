@@ -92,7 +92,7 @@ def _load_data_mysql(**kwargs):
             ]
             cursor.executemany( sql, params )
             # 3. 커밋
-            cursor.commit()
+            conn.commit()
             logging.info('mysql에 데이터 삽입(적제) 성공(success)')
     except Exception as e:
         logging.error(f'mysql에 데이터 삽입(적제) 중 오류 발생 {e}')
