@@ -69,14 +69,30 @@ def _load_data_mysql(**kwargs):
     ti             = kwargs['ti']
     csv_file_path  = ti.xcom_pull(task_ids='transform_data_std_change')
 
+    # 1.5 csv -> df
+    df = pd.read_csv( csv_file_path )
+
     # 2. 연결 -> I/O (예외처리, with문 -> auto close() 처리)
     mysql_hook = MySqlHook(mysql_conn_id='mysql_default')
     conn       = mysql_hook.get_conn() # 커넥션 획득
     try:        
         with conn.cursor() as cursor:   # 커서 획득
             # 1. 쿼리문 준비
+            sql = '''
+                insert into sensor_readings 
+                (sensor_id, timestamp, temperature_c, temperature_f)
+                values (%s, %s, %s, %s)
+            '''
             # 2. 데이터별, 컬럼별 추출하여 쿼리 수행 ( executemany() )
+            #params = list() # [ (값, 값, 값, 값), (), () ]
+            params = [
+                ( data['sensor_id'],     data['timestamp'], 
+                  data['temperature_c'], data['temperature_f'] )
+                for _, data in df.iterrows()
+            ]
+            cursor.executemany( sql, params )
             # 3. 커밋
+            cursor.commit()
             logging.info('mysql에 데이터 삽입(적제) 성공(success)')
     except Exception as e:
         logging.error(f'mysql에 데이터 삽입(적제) 중 오류 발생 {e}')
