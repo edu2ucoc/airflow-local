@@ -17,6 +17,28 @@ import os
 DATA_PATH = '/opt/airflow/dags/data' # 도커 내부에 있는 서비스(리눅스기반)의 특정경로
 os.makedirs( DATA_PATH , exist_ok=True)
 
+def _extract_data_sensor(**kwargs):
+    # kwargs <- airflow context 정보가 전달됨
+    # 스마트팩토리에 설치된 온도 센서 데이터가 어딘가(데이터 레이크:s3)에 쌓이고 있다 -> 추출해서 가져온다
+    # 여기서는 더미로 구성
+    data = ...
+
+
+    # 더미로 만든 데이터를 파일로 저장 => /opt/airflow/dags/data/sensor_data_DAG수행날짜.json
+    file_path = f'{DATA_PATH}/sensor_data_{ kwargs["ds_nodash"] }.json'
+    with open(file_path, 'w') as f:
+        json.dump( data , f)
+
+    # XCom을 통해서 다음 task에서 접근 가능함
+    # 다음 테스크에게 무엇을 전달할 것인가? 
+    # 1) 데이터(저용량일때 가볍게, 사용 자제) 2) [v]파일경로(로컬, s3경로등)
+    return file_path
+    pass
+def _transform_data_std_change(**kwargs):
+    pass
+def _load_data_mysql(**kwargs):
+    pass
+
 # DAG
 with DAG(
     dag_id              = "05_mysql_etl_v1",
@@ -32,10 +54,36 @@ with DAG(
     tags                = ['mysql', 'etl']
 ) as dag:
     # 오퍼레이터(task)
-    create_table    = MySqlOperator()
-    extract_data    = PythonOperator()
-    transform_data  = PythonOperator()
-    load_data       = PythonOperator()
+    create_table    = MySqlOperator(
+        task_id     = "create_table",
+        mysql_conn_id = 'mysql_default', # UI>Admin>connections>등록된 내용과 동일하게 구성
+        # 여러번 수행할수 있으므로 IF NOT EXISTS => 존재하지 않으면 생성
+        # 기재하지 않으면 2번째 주기에서  task 구동시 실패 발생할 수 있음
+        # sql을 등록하시면 task instance 수행시 반드시 쿼리가 작동함
+        sql         = '''
+            CREATE TABLE IF NOT EXISTS sensor_readings (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                sensor_id VARCHAR(50),
+                timestamp DATETIME,
+                temperature_c FLOAT,
+                temperature_f FLOAT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+
+        '''
+    )
+    extract_data    = PythonOperator(
+        task_id     = "extract_data_sensor",
+        python_callable = _extract_data_sensor
+    )
+    transform_data  = PythonOperator(
+        task_id     = "transform_data_std_change",
+        python_callable = _transform_data_std_change
+    )
+    load_data       = PythonOperator(
+        task_id     = "load_data_mysql",
+        python_callable = _load_data_mysql
+    )
 
     # 의존성
     # 테이블 생성 >> Extract >> transform >> Load
